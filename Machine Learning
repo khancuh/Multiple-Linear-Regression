@@ -1,0 +1,35 @@
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import sklearn
+from sklearn.preprocessing import LabelEncoder
+from sklearn.preprocessing import OneHotEncoder
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LinearRegression
+
+data = pd.read_csv('C:\\Users\\Imran\\Desktop\\Startups.csv')
+data
+
+real_x = data.iloc[:,0:4].values
+real_y = data.iloc[:,4].values
+real_x
+
+le = LabelEncoder()
+real_x[:,3] = le.fit_transform(real_x[:,3])
+oneHE = OneHotEncoder(categorical_features=[3])
+real_x = oneHE.fit_transform(real_x).toarray()
+
+training_x,test_x,training_y,test_y = train_test_split(real_x,real_y,test_size=0.2,random_state=0)
+
+
+MLR = LinearRegression()
+MLR.fit(training_x,training_y)
+
+
+pred_y = MLR.predict(test_x)
+
+test_y
+
+MLR.coef_
+
+MLR.intercept_
